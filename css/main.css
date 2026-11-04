@@ -1,0 +1,367 @@
+
+/* =================================
+   1. Global Variables
+================================= */
+
+:root {
+    font-family: Arial, Helvetica, sans-serif;
+
+    color: #e5e7eb;
+    background: #111827;
+
+    --background: #111827;
+    --surface: #1f2937;
+    --surface-hover: #374151;
+    --border: #374151;
+
+    --text-primary: #f9fafb;
+    --text-secondary: #9ca3af;
+
+    --accent: #8b5cf6;
+    --accent-hover: #7c3aed;
+}
+
+/* =================================
+   2. Reset
+================================= */
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-width: 320px;
+    min-height: 100vh;
+}
+
+button,
+input,
+textarea,
+select {
+    font: inherit;
+}
+
+/* =================================
+   3. Application Layout
+================================= */
+
+.app {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.app-header {
+    height: 64px;
+    padding: 0 24px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+}
+
+.app-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.brand-icon {
+    width: 36px;
+    height: 36px;
+
+    display: grid;
+    place-items: center;
+
+    background: var(--accent);
+    border-radius: 10px;
+
+    color: white;
+    font-weight: 700;
+}
+
+.user-label {
+    color: var(--text-secondary);
+    font-size: 13px;
+}
+
+.app-layout {
+    flex: 1;
+    display: flex;
+    min-height: 0;
+}
+
+/* =================================
+   4. Sidebar
+================================= */
+
+.sidebar {
+    width: 240px;
+    flex-shrink: 0;
+
+    padding: 24px 18px;
+
+    background: var(--surface);
+    border-right: 1px solid var(--border);
+}
+
+.sidebar-heading {
+    color: var(--text-secondary);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+.sidebar-placeholder {
+    color: var(--text-secondary);
+    font-size: 13px;
+    line-height: 1.6;
+    margin-top: 18px;
+}
+
+/* =================================
+   5. Main Content
+================================= */
+
+.main-content {
+    flex: 1;
+    padding: 40px;
+    min-width: 0;
+}
+
+.welcome-section {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.eyebrow {
+    color: #a78bfa;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+}
+
+h1 {
+    color: var(--text-primary);
+    font-size: clamp(26px, 4vw, 38px);
+    margin: 16px 0;
+}
+
+.welcome-description {
+    color: var(--text-secondary);
+    font-size: 16px;
+    line-height: 1.7;
+    max-width: 600px;
+}
+
+.setup-card {
+    margin-top: 36px;
+    padding: 28px;
+
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+}
+
+.setup-card h2 {
+    font-size: 20px;
+    margin-top: 0;
+}
+
+.setup-card p {
+    color: var(--text-secondary);
+    line-height: 1.7;
+    margin-bottom: 0;
+}
+
+/* =================================
+   6. Footer
+================================= */
+
+.app-footer {
+    display: flex;
+    justify-content: space-between;
+
+    padding: 16px 24px;
+
+    border-top: 1px solid var(--border);
+
+    color: var(--text-secondary);
+    font-size: 12px;
+}
+
+/* =================================
+   7. Responsive Layout
+================================= */
+
+@media (max-width: 768px) {
+    .app-header {
+        padding: 0 16px;
+    }
+
+    .sidebar {
+        display: none;
+    }
+
+    .main-content {
+        padding: 28px 18px;
+    }
+
+    .setup-card {
+        padding: 20px;
+    }
+
+    .app-footer {
+        padding: 14px 16px;
+    }
+}
+
+/* =================================
+   8. Navigation
+================================= */
+
+.sidebar-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-top: 18px;
+}
+
+.sidebar-nav .sidebar-heading {
+    margin-top: 12px;
+    margin-bottom: 6px;
+}
+
+.nav-link {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    padding: 11px 12px;
+
+    border: none;
+    border-radius: 8px;
+
+    background: transparent;
+    color: var(--text-secondary);
+
+    text-align: left;
+    font-size: 14px;
+
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+}
+
+.nav-link:hover {
+    background: var(--surface-hover);
+    color: var(--text-primary);
+}
+
+.nav-link.active {
+    background: rgba(139, 92, 246, 0.18);
+    color: #c4b5fd;
+    font-weight: 600;
+}
+
+.nav-icon {
+    width: 20px;
+    text-align: center;
+    font-size: 18px;
+}
+
+.nav-divider {
+    height: 1px;
+    background: var(--border);
+    margin: 12px 0;
+}
+
+/* =================================
+   9. Dynamic Pages
+================================= */
+
+.page-section {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.page-description {
+    color: var(--text-secondary);
+    font-size: 15px;
+    line-height: 1.6;
+}
+
+.page-placeholder {
+    margin-top: 32px;
+    padding: 28px;
+
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+}
+
+.page-placeholder h2 {
+    margin-top: 0;
+    color: var(--text-primary);
+}
+
+.page-placeholder p {
+    color: var(--text-secondary);
+    line-height: 1.7;
+}
+
+.coming-soon {
+    display: inline-block;
+    margin-top: 12px;
+    padding: 6px 10px;
+
+    background: rgba(139, 92, 246, 0.15);
+    border-radius: 6px;
+
+    color: #c4b5fd;
+    font-size: 12px;
+}
+
+/* =================================
+   10. Mobile Navigation
+================================= */
+
+@media (max-width: 768px) {
+    .sidebar {
+        display: block;
+        width: 100%;
+        padding: 16px;
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+    }
+
+    .sidebar-nav {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 6px;
+    }
+
+    .sidebar-nav .sidebar-heading {
+        grid-column: 1 / -1;
+    }
+
+    .nav-divider {
+        grid-column: 1 / -1;
+    }
+
+    .nav-link {
+        padding: 10px 8px;
+        font-size: 13px;
+    }
+
+    .page-placeholder {
+        padding: 20px;
+    }
+}
