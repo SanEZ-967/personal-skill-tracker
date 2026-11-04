@@ -1,41 +1,27 @@
+
 export function configureDatabase(db) {
     db.version(1).stores({
+        nodes: "id, parentId, name, nodeType, isArchived, updatedAt",
+        assessments: "id, nodeId, assessedAt",
+        goals: "id, nodeId, status, deadline",
+        evidence: "id, nodeId, verificationStatus, createdAt",
+        resources: "id, nodeId, resourceType",
+        practiceLogs: "id, nodeId, practicedAt",
+        relationships: "id, sourceNodeId, targetNodeId, relationshipType, &[sourceNodeId+targetNodeId+relationshipType]",
+        achievements: "id, &achievementKey, unlockedAt",
+        settings: "&key"
+    });
 
-        // Skill tree
-        nodes:
-            "id, parentId, name, nodeType, isArchived, updatedAt",
-
-        // Skill assessments
-        assessments:
-            "id, nodeId, assessedAt",
-
-        // Development goals
-        goals:
-            "id, nodeId, status, deadline",
-
-        // Skill evidence
-        evidence:
-            "id, nodeId, verificationStatus, createdAt",
-
-        // Learning resources
-        resources:
-            "id, nodeId, resourceType",
-
-        // Practice history
-        practiceLogs:
-            "id, nodeId, practicedAt",
-
-        // Cross-domain relationships
-        relationships:
-            "id, sourceNodeId, targetNodeId, relationshipType, &[sourceNodeId+targetNodeId+relationshipType]",
-
-        // Unlocked achievements
-        achievements:
-            "id, &achievementKey, unlockedAt",
-
-        // Application settings
-        settings:
-            "&key"
-
+    // Database version 2: Quest progress tracking
+    db.version(2).stores({
+        nodes: "id, parentId, name, nodeType, isArchived, updatedAt",
+        assessments: "id, nodeId, assessedAt",
+        goals: "id, nodeId, status, deadline",
+        evidence: "id, nodeId, verificationStatus, createdAt",
+        resources: "id, nodeId, resourceType",
+        practiceLogs: "id, nodeId, practicedAt",
+        relationships: "id, sourceNodeId, targetNodeId, relationshipType, &[sourceNodeId+targetNodeId+relationshipType]",
+        achievements: "id, &achievementKey, unlockedAt",
+        settings: "&key"
     });
 }

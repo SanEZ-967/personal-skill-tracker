@@ -1,8 +1,5 @@
 
 import { db } from "../database/db.js";
-getMaintenancePriority,
-getMaintenanceRecommendation,
-getMaintenanceSummary
 
 // ==========================================
 // MAINTENANCE STATUS RULES
