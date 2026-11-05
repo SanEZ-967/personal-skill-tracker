@@ -6,6 +6,10 @@ import {
     validateNodeReference
 } from "./validation-service.js";
 
+import {
+    checkAchievementsSafely
+} from "./achievement-check-service.js";
+
 // ==========================================
 // QUEST DIFFICULTY AND XP REWARDS
 // ==========================================
@@ -108,7 +112,6 @@ export async function createGoal({
 // ==========================================
 // CREATE QUEST
 // ==========================================
-
 
 export async function createQuest({
     nodeId = null,
@@ -288,13 +291,12 @@ export async function deleteGoal(id) {
     return true;
 }
 
-
 // ==========================================
 // COMPLETE GOAL OR QUEST
 // ==========================================
 
 export async function completeGoal(id) {
-    return await db.transaction(
+    const outcome = await db.transaction(
         "rw",
         db.goals,
         db.practiceLogs,
@@ -313,12 +315,10 @@ export async function completeGoal(id) {
 
             let xpAwarded = 0;
 
-            // Determine whether this is a quest
             const isQuest = Object.hasOwn(
                 goal,
                 "questDifficulty"
             );
-
 
             if (isQuest) {
                 const difficulty = goal.questDifficulty;
@@ -342,16 +342,13 @@ export async function completeGoal(id) {
                     QUEST_REWARDS[difficulty.toUpperCase()];
             }
 
-
             const completedAt = getTimestamp();
 
-            // Mark goal or quest as completed
             await db.goals.update(id, {
                 status: "completed",
                 completedAt
             });
 
-            // Award XP only when completing a quest
             if (isQuest) {
                 await db.practiceLogs.add({
                     id: crypto.randomUUID(),
@@ -369,12 +366,17 @@ export async function completeGoal(id) {
                 ...goal,
                 status: "completed",
                 completedAt,
-                xpAwarded
+                xpAwarded,
+                isQuest
             };
         }
     );
-}
 
+    // Safely check quest and goal achievements after saving.
+    await checkAchievementsSafely();
+
+    return outcome;
+}
 
 // ==========================================
 // UPDATE QUEST PROGRESS

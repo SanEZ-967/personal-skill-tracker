@@ -14,6 +14,10 @@ import {
     validateNodeReference
 } from "./integrity-service.js";
 
+import {
+    checkAchievementsSafely
+} from "./achievement-check-service.js";
+
 // ==========================================
 // CREATE ASSESSMENT
 // ==========================================
@@ -25,10 +29,10 @@ export async function createAssessment({
     consistencyScore,
     notes = ""
 }) {
-    // Validate node reference
+    // Validate node reference.
     await validateNodeReference(nodeId);
 
-    // Validate proficiency scores
+    // Validate proficiency scores.
     validateProficiencyScores({
         knowledgeScore,
         practicalScore,
@@ -50,6 +54,9 @@ export async function createAssessment({
     };
 
     await db.assessments.add(assessment);
+
+    // Safely check proficiency-related achievements.
+    await checkAchievementsSafely();
 
     return {
         ...assessment,
@@ -88,6 +95,7 @@ export async function getAssessmentsForNode(nodeId) {
             new Date(b.assessedAt) - new Date(a.assessedAt)
     );
 }
+
 // ==========================================
 // GET LATEST ASSESSMENT
 // ==========================================

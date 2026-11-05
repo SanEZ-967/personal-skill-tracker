@@ -15,11 +15,14 @@ import {
 export async function getPlayerSummary() {
     const totalXP = await getTotalXP();
 
+    const playerLevel = calculatePlayerLevel(totalXP);
+
     const progress = getXPProgress(totalXP);
 
     return {
         totalXP,
-        playerLevel: calculatePlayerLevel(totalXP),
+        level: playerLevel,
+        playerLevel,
         xpIntoLevel: progress.xpIntoLevel,
         xpNeededForLevel: progress.xpNeededForLevel,
         nextLevelXP: progress.nextLevelXP,

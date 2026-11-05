@@ -1,0 +1,171 @@
+
+{
+  "version": 1,
+  "achievements": [
+    {
+      "key": "first_skill",
+      "title": "First Steps",
+      "description": "Create your first skill.",
+      "category": "exploration",
+      "rarity": "common",
+      "xpReward": 10,
+      "conditionType": "skill_count",
+      "conditionTarget": 1,
+      "isHidden": false
+    },
+    {
+      "key": "curious_mind",
+      "title": "Curious Mind",
+      "description": "Create 10 skills.",
+      "category": "exploration",
+      "rarity": "uncommon",
+      "xpReward": 0,
+      "conditionType": "skill_count",
+      "conditionTarget": 10,
+      "isHidden": false
+    },
+    {
+      "key": "skill_explorer",
+      "title": "Skill Explorer",
+      "description": "Create 50 skills.",
+      "category": "exploration",
+      "rarity": "rare",
+      "xpReward": 0,
+      "conditionType": "skill_count",
+      "conditionTarget": 50,
+      "isHidden": false
+    },
+    {
+      "key": "first_practice",
+      "title": "Practice Makes Progress",
+      "description": "Complete your first practice session.",
+      "category": "practice",
+      "rarity": "common",
+      "xpReward": 10,
+      "conditionType": "practice_count",
+      "conditionTarget": 1,
+      "isHidden": false
+    },
+    {
+      "key": "dedicated_learner",
+      "title": "Dedicated Learner",
+      "description": "Complete 25 practice sessions.",
+      "category": "practice",
+      "rarity": "uncommon",
+      "xpReward": 0,
+      "conditionType": "practice_count",
+      "conditionTarget": 25,
+      "isHidden": false
+    },
+    {
+      "key": "first_breakthrough",
+      "title": "First Breakthrough",
+      "description": "Unlock your first proficiency rank.",
+      "category": "progression",
+      "rarity": "uncommon",
+      "xpReward": 25,
+      "conditionType": "breakthrough_count",
+      "conditionTarget": 1,
+      "isHidden": false
+    },
+    {
+      "key": "rising_talent",
+      "title": "Rising Talent",
+      "description": "Reach proficiency level 3.",
+      "category": "proficiency",
+      "rarity": "rare",
+      "xpReward": 0,
+      "conditionType": "proficiency_level",
+      "conditionTarget": 3,
+      "isHidden": false
+    },
+    {
+      "key": "expert_in_the_making",
+      "title": "Expert in the Making",
+      "description": "Reach proficiency level 4.",
+      "category": "proficiency",
+      "rarity": "epic",
+      "xpReward": 0,
+      "conditionType": "proficiency_level",
+      "conditionTarget": 4,
+      "isHidden": false
+    },
+    {
+      "key": "first_quest",
+      "title": "First Quest",
+      "description": "Complete your first quest.",
+      "category": "quests",
+      "rarity": "common",
+      "xpReward": 10,
+      "conditionType": "quest_count",
+      "conditionTarget": 1,
+      "isHidden": false
+    },
+    {
+      "key": "quest_champion",
+      "title": "Quest Champion",
+      "description": "Complete 25 quests.",
+      "category": "quests",
+      "rarity": "rare",
+      "xpReward": 0,
+      "conditionType": "quest_count",
+      "conditionTarget": 25,
+      "isHidden": false
+    },
+    {
+      "key": "goal_getter",
+      "title": "Goal Getter",
+      "description": "Complete 10 goals.",
+      "category": "goals",
+      "rarity": "uncommon",
+      "xpReward": 25,
+      "conditionType": "goal_count",
+      "conditionTarget": 10,
+      "isHidden": false
+    },
+    {
+      "key": "consistency_champion",
+      "title": "Consistency Champion",
+      "description": "Maintain a skill for 30 days.",
+      "category": "maintenance",
+      "rarity": "rare",
+      "xpReward": 50,
+      "conditionType": "maintenance_duration",
+      "conditionTarget": 30,
+      "isHidden": false
+    },
+    {
+      "key": "xp_collector",
+      "title": "XP Collector",
+      "description": "Earn 1,000 total XP.",
+      "category": "experience",
+      "rarity": "uncommon",
+      "xpReward": 0,
+      "conditionType": "total_xp",
+      "conditionTarget": 1000,
+      "isHidden": false
+    },
+    {
+      "key": "experienced",
+      "title": "Experienced",
+      "description": "Reach player level 5.",
+      "category": "experience",
+      "rarity": "rare",
+      "xpReward": 0,
+      "conditionType": "player_level",
+      "conditionTarget": 5,
+      "isHidden": false
+    },
+    {
+      "key": "legendary_learner",
+      "title": "Legendary Learner",
+      "description": "Reach player level 10.",
+      "category": "experience",
+      "rarity": "legendary",
+      "xpReward": 100,
+      "conditionType": "player_level",
+      "conditionTarget": 10,
+      "isHidden": false
+    }
+  ]
+}

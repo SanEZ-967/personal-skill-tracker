@@ -21,7 +21,8 @@ const REQUIRED_TABLES = [
     "practiceLogs",
     "relationships",
     "achievements",
-    "settings"
+    "settings",
+    "breakthroughs"
 ];
 
 // ==========================================
@@ -144,10 +145,10 @@ export function validateBackup(backup) {
 // ==========================================
 
 export async function restoreDatabase(backup) {
-    // Validate before changing existing data
+    // Validate before changing existing data.
     validateBackup(backup);
 
-    // Only restore backups matching the current schema version
+    // Only restore backups matching the current schema version.
     if (backup.databaseVersion !== db.verno) {
         throw new Error(
             "Backup database version is incompatible with this application."
@@ -162,7 +163,7 @@ export async function restoreDatabase(backup) {
         "rw",
         ...tables,
         async () => {
-            // Clear existing data and import backup records
+            // Clear existing data and import backup records.
             for (const tableName of REQUIRED_TABLES) {
                 const table = db.table(tableName);
                 const records = backup.data[tableName];
@@ -174,7 +175,7 @@ export async function restoreDatabase(backup) {
                 }
             }
 
-            // Verify restored references before committing
+            // Verify restored references before committing.
             const integrity = await checkDatabaseIntegrity();
 
             if (!integrity.isValid) {

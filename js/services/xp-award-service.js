@@ -13,6 +13,10 @@ import {
     validateNodeReference
 } from "./integrity-service.js";
 
+import {
+    checkAchievementsSafely
+} from "./achievement-check-service.js";
+
 // ==========================================
 // AWARD XP THROUGH PRACTICE
 // ==========================================
@@ -50,6 +54,9 @@ export async function recordPractice({
 
     await db.practiceLogs.add(practiceLog);
 
+    // Safely check practice, XP and player-level achievements.
+    await checkAchievementsSafely();
+
     return practiceLog;
 }
 
@@ -58,12 +65,26 @@ export async function recordPractice({
 // ==========================================
 
 export async function getTotalXP() {
-    const logs = await db.practiceLogs.toArray();
+    const [
+        practiceLogs,
+        achievements
+    ] = await Promise.all([
+        db.practiceLogs.toArray(),
+        db.achievements.toArray()
+    ]);
 
-    return logs.reduce(
-        (total, log) => total + log.xpEarned,
+    const practiceXP = practiceLogs.reduce(
+        (total, log) => total + (log.xpEarned ?? 0),
         0
     );
+
+    const achievementXP = achievements.reduce(
+        (total, achievement) =>
+            total + (achievement.xpAwarded ?? 0),
+        0
+    );
+
+    return practiceXP + achievementXP;
 }
 
 // ==========================================
@@ -77,7 +98,7 @@ export async function getXPForNode(nodeId) {
         .toArray();
 
     return logs.reduce(
-        (total, log) => total + log.xpEarned,
+        (total, log) => total + (log.xpEarned ?? 0),
         0
     );
 }
@@ -92,10 +113,12 @@ export async function getPracticeHistory(nodeId) {
         .equals(nodeId)
         .toArray();
 
-    return logs.sort(
-        (a, b) =>
-            new Date(b.practicedAt) - new Date(a.practicedAt)
-    );
+    return logs
+        .filter(log => !log.questId)
+        .sort(
+            (a, b) =>
+                new Date(b.practicedAt) - new Date(a.practicedAt)
+        );
 }
 
 // ==========================================
@@ -105,8 +128,10 @@ export async function getPracticeHistory(nodeId) {
 export async function getAllPracticeLogs() {
     const logs = await db.practiceLogs.toArray();
 
-    return logs.sort(
-        (a, b) =>
-            new Date(b.practicedAt) - new Date(a.practicedAt)
-    );
+    return logs
+        .filter(log => !log.questId)
+        .sort(
+            (a, b) =>
+                new Date(b.practicedAt) - new Date(a.practicedAt)
+        );
 }

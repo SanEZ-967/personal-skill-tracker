@@ -61,16 +61,25 @@ export async function checkDatabaseIntegrity() {
         { name: "goals", field: "nodeId" },
         { name: "evidence", field: "nodeId" },
         { name: "resources", field: "nodeId" },
-        { name: "practiceLogs", field: "nodeId" }
+        { name: "practiceLogs", field: "nodeId" },
+        { name: "breakthroughs", field: "nodeId" }
     ];
 
-    // Check records that reference individual nodes
+    // Check records that reference individual nodes.
     for (const tableInfo of tables) {
         const records = await db
             .table(tableInfo.name)
             .toArray();
 
         for (const record of records) {
+            // Goals and quest records may have a null nodeId.
+            if (
+                tableInfo.name === "goals" &&
+                record[tableInfo.field] === null
+            ) {
+                continue;
+            }
+
             const exists = await nodeExists(
                 record[tableInfo.field]
             );
@@ -85,7 +94,7 @@ export async function checkDatabaseIntegrity() {
         }
     }
 
-    // Check node parent references
+    // Check node parent references.
     const nodes = await db.nodes.toArray();
 
     for (const node of nodes) {
@@ -102,7 +111,7 @@ export async function checkDatabaseIntegrity() {
         }
     }
 
-    // Check cross-node relationships
+    // Check cross-node relationships.
     const relationships = await db.relationships.toArray();
 
     for (const relationship of relationships) {

@@ -1,5 +1,6 @@
 
 export function configureDatabase(db) {
+    // Database version 1: Initial database structure
     db.version(1).stores({
         nodes: "id, parentId, name, nodeType, isArchived, updatedAt",
         assessments: "id, nodeId, assessedAt",
@@ -23,5 +24,19 @@ export function configureDatabase(db) {
         relationships: "id, sourceNodeId, targetNodeId, relationshipType, &[sourceNodeId+targetNodeId+relationshipType]",
         achievements: "id, &achievementKey, unlockedAt",
         settings: "&key"
+    });
+
+    // Database version 3: Breakthrough tracking
+    db.version(3).stores({
+        nodes: "id, parentId, name, nodeType, isArchived, updatedAt",
+        assessments: "id, nodeId, assessedAt",
+        goals: "id, nodeId, status, deadline",
+        evidence: "id, nodeId, verificationStatus, createdAt",
+        resources: "id, nodeId, resourceType",
+        practiceLogs: "id, nodeId, practicedAt",
+        relationships: "id, sourceNodeId, targetNodeId, relationshipType, &[sourceNodeId+targetNodeId+relationshipType]",
+        achievements: "id, &achievementKey, unlockedAt",
+        settings: "&key",
+        breakthroughs: "id, nodeId, previousLevel, newLevel, unlockedAt, &[nodeId+newLevel]"
     });
 }

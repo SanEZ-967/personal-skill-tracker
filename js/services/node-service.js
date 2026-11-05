@@ -1,23 +1,18 @@
 
 import { db } from "../database/db.js";
+
 import {
     validateRequiredString,
     validateNodeType,
     validateTags
 } from "./validation-service.js";
 
-const VALID_NODE_TYPES = [
-    "category",
-    "skill",
-    "competency"
-];
+import {
+    checkAchievementsSafely
+} from "./achievement-check-service.js";
 
 function getTimestamp() {
     return new Date().toISOString();
-}
-
-function isValidNodeType(nodeType) {
-    return VALID_NODE_TYPES.includes(nodeType);
 }
 
 // ==========================================
@@ -31,7 +26,6 @@ export async function createNode({
     nodeType = "skill",
     tags = []
 }) {
-    // Validate node data
     const cleanName = validateRequiredString(name, "Node name");
 
     validateNodeType(nodeType);
@@ -41,7 +35,7 @@ export async function createNode({
         throw new Error("Description must be a string.");
     }
 
-    // Validate parent
+    // Validate parent.
     if (parentId !== null) {
         if (typeof parentId !== "string" || !parentId.trim()) {
             throw new Error("Parent ID must be a valid string or null.");
@@ -73,6 +67,11 @@ export async function createNode({
     };
 
     await db.nodes.add(node);
+
+    // Safely check skill-related achievements.
+    if (nodeType === "skill") {
+        await checkAchievementsSafely();
+    }
 
     return node;
 }
@@ -162,7 +161,7 @@ export async function updateNode(id, updates) {
         cleanUpdates.tags = cleanUpdates.tags.map(tag => tag.trim());
     }
 
-    // Validate parent changes
+    // Validate parent changes.
     if (Object.hasOwn(cleanUpdates, "parentId")) {
         const newParentId = cleanUpdates.parentId;
 
@@ -178,7 +177,7 @@ export async function updateNode(id, updates) {
             }
 
             if (newParent.isArchived) {
-                throw new Error("Cannot move a node under an archived parent.");
+                throw new Error("Cannot move a node under an archived node.");
             }
         }
 
@@ -258,6 +257,7 @@ export async function deleteNode(id) {
         db.resources,
         db.practiceLogs,
         db.relationships,
+        db.breakthroughs,
         async () => {
             const node = await db.nodes.get(id);
 
@@ -281,7 +281,8 @@ export async function deleteNode(id) {
                 db.goals,
                 db.evidence,
                 db.resources,
-                db.practiceLogs
+                db.practiceLogs,
+                db.breakthroughs
             ];
 
             for (const table of dependentTables) {
