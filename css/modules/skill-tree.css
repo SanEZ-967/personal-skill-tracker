@@ -1,0 +1,220 @@
+
+.skill-tree-container {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    width: 100%;
+}
+
+.skill-tree-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.skill-tree-header h2 {
+    margin: 0 0 6px;
+}
+
+.skill-tree-header p {
+    margin: 0;
+    color: var(--text-muted, #777);
+}
+
+.skill-tree-refresh {
+    padding: 9px 16px;
+    border: 1px solid var(--border-color, #ddd);
+    border-radius: 8px;
+    background: var(--surface-color, #fff);
+    color: var(--text-color, #222);
+    cursor: pointer;
+}
+
+.skill-tree-refresh:hover {
+    background: var(--hover-color, #f3f3f3);
+}
+
+.skill-tree-toolbar {
+    width: 100%;
+}
+
+.skill-tree-toolbar input {
+    width: 100%;
+    max-width: 420px;
+    padding: 11px 14px;
+    border: 1px solid var(--border-color, #ddd);
+    border-radius: 8px;
+    background: var(--surface-color, #fff);
+    color: var(--text-color, #222);
+    font: inherit;
+}
+
+.skill-tree-content {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.skill-tree-list,
+.skill-tree-children {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.skill-tree-children {
+    margin-left: 27px;
+    padding-left: 16px;
+    border-left: 1px solid var(--border-color, #ddd);
+}
+
+.skill-tree-node {
+    margin: 8px 0;
+}
+
+.skill-tree-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-height: 48px;
+    padding: 6px 10px;
+    border: 1px solid var(--border-color, #ddd);
+    border-radius: 9px;
+    background: var(--surface-color, #fff);
+    transition: background 0.15s ease;
+}
+
+.skill-tree-item:hover {
+    background: var(--hover-color, #f5f5f5);
+}
+
+.skill-tree-toggle,
+.skill-tree-toggle-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 28px;
+    width: 28px;
+    height: 28px;
+}
+
+.skill-tree-toggle {
+    border: none;
+    border-radius: 5px;
+    background: transparent;
+    color: var(--text-color, #333);
+    cursor: pointer;
+}
+
+.skill-tree-toggle:hover {
+    background: var(--hover-color, #eaeaea);
+}
+
+.skill-tree-node-button {
+    display: flex;
+    align-items: center;
+    flex: 1;
+    gap: 10px;
+    min-width: 0;
+    padding: 5px 0;
+    border: none;
+    background: transparent;
+    color: var(--text-color, #222);
+    text-align: left;
+    cursor: pointer;
+}
+
+.skill-tree-node-name {
+    overflow: hidden;
+    font-weight: 600;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.skill-tree-node-type {
+    flex-shrink: 0;
+    padding: 3px 7px;
+    border-radius: 5px;
+    background: var(--hover-color, #eee);
+    color: var(--text-muted, #666);
+    font-size: 0.75rem;
+    text-transform: capitalize;
+}
+
+.skill-tree-proficiency {
+    flex-shrink: 0;
+    padding: 5px 9px;
+    border-radius: 6px;
+    background: var(--hover-color, #eee);
+    color: var(--text-color, #333);
+    font-size: 0.8rem;
+}
+
+.skill-tree-empty {
+    padding: 40px 20px;
+    border: 1px dashed var(--border-color, #ccc);
+    border-radius: 10px;
+    text-align: center;
+}
+
+.skill-tree-empty h3 {
+    margin-top: 0;
+}
+
+.skill-tree-empty p {
+    margin-bottom: 0;
+    color: var(--text-muted, #777);
+}
+
+.skill-tree-children[hidden] {
+    display: none;
+}
+
+@media (max-width: 600px) {
+    .skill-tree-header {
+        align-items: flex-start;
+    }
+
+    .skill-tree-item {
+        gap: 6px;
+        padding: 6px;
+    }
+
+    .skill-tree-children {
+        margin-left: 14px;
+        padding-left: 10px;
+    }
+
+    .skill-tree-node-type {
+        display: none;
+    }
+
+    .skill-tree-proficiency {
+        font-size: 0.7rem;
+        padding: 4px 6px;
+    }
+}
+
+
+/* ==========================================
+   SKILL TREE DOMAIN SECTIONS
+========================================== */
+
+.skill-tree-domain {
+    margin-bottom: 2rem;
+}
+
+.skill-tree-domain-title {
+    margin: 0 0 1rem;
+    padding-bottom: 0.65rem;
+    border-bottom: 1px solid var(--border-color);
+    font-size: 1.1rem;
+    font-weight: 700;
+}
+
+.skill-tree-domain-nodes {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}

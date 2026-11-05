@@ -1,0 +1,90 @@
+
+{
+  "version": 1,
+  "domains": [
+    {
+      "id": "intellectual-cognitive",
+      "name": "Intellectual & Cognitive",
+      "description": "Thinking, reasoning, memory, and problem-solving.",
+      "icon": "brain"
+    },
+    {
+      "id": "academic-scientific",
+      "name": "Academic & Scientific",
+      "description": "Academic subjects, scientific knowledge, and research.",
+      "icon": "graduation-cap"
+    },
+    {
+      "id": "technology-digital",
+      "name": "Technology & Digital",
+      "description": "Computing, programming, digital tools, and technology.",
+      "icon": "monitor"
+    },
+    {
+      "id": "professional-business",
+      "name": "Professional & Business",
+      "description": "Career skills, entrepreneurship, and business operations.",
+      "icon": "briefcase-business"
+    },
+    {
+      "id": "communication-languages",
+      "name": "Communication & Languages",
+      "description": "Speaking, writing, listening, and languages.",
+      "icon": "messages-square"
+    },
+    {
+      "id": "social-interpersonal",
+      "name": "Social & Interpersonal",
+      "description": "Relationships, teamwork, networking, and social skills.",
+      "icon": "users"
+    },
+    {
+      "id": "physical-athletic",
+      "name": "Physical & Athletic",
+      "description": "Sports, movement, coordination, and physical performance.",
+      "icon": "dumbbell"
+    },
+    {
+      "id": "health-wellbeing",
+      "name": "Health & Wellbeing",
+      "description": "Healthy habits, self-care, and personal wellbeing.",
+      "icon": "heart-pulse"
+    },
+    {
+      "id": "creative-artistic",
+      "name": "Creative & Artistic",
+      "description": "Art, music, design, writing, and creative expression.",
+      "icon": "palette"
+    },
+    {
+      "id": "practical-everyday",
+      "name": "Practical & Everyday",
+      "description": "Cooking, repairs, household tasks, and everyday capabilities.",
+      "icon": "wrench"
+    },
+    {
+      "id": "financial-economic",
+      "name": "Financial & Economic",
+      "description": "Budgeting, saving, investing, and economic understanding.",
+      "icon": "wallet"
+    },
+    {
+      "id": "leadership-management",
+      "name": "Leadership & Management",
+      "description": "Leadership, planning, delegation, and decision-making.",
+      "icon": "users-round"
+    },
+    {
+      "id": "emotional-self-management",
+      "name": "Emotional & Self-Management",
+      "description": "Emotional awareness, discipline, resilience, and self-regulation.",
+      "icon": "brain-circuit"
+    },
+    {
+      "id": "hobbies-crafts-recreation",
+      "name": "Hobbies, Crafts & Recreation",
+      "description": "Personal interests, crafts, games, and recreational activities.",
+      "icon": "puzzle"
+    }
+  ]
+}

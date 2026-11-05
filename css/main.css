@@ -1,4 +1,7 @@
+@import url("./modules/dashboard.css");
 @import url("./modules/calendar.css");
+@import url("./modules/timer.css");
+@import url("./modules/skill-tree.css");
 /* =================================
    1. Global Variables
 ================================= */

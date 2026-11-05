@@ -5,6 +5,7 @@
  */
 
 import { mountDashboard } from "./modules/dashboard.js";
+import { mountSkillTree } from "./modules/skill-tree.js";
 import { mountCalendar } from "./modules/calendar.js";
 import { mountTimer } from "./modules/timer.js";
 
@@ -65,14 +66,25 @@ const pages = {
 };
 
 let activeDashboard = null;
+let activeSkillTree = null;
 let activeCalendar = null;
 let activeTimer = null;
+
+let skillTreeMountToken = 0;
 
 function cleanupActiveModules() {
     if (activeDashboard) {
         activeDashboard.destroy();
         activeDashboard = null;
     }
+
+    if (activeSkillTree) {
+        activeSkillTree.destroy();
+        activeSkillTree = null;
+    }
+
+    // Invalidate any Skill Tree module still loading.
+    skillTreeMountToken++;
 
     if (activeCalendar) {
         activeCalendar.destroy();
@@ -102,6 +114,13 @@ function renderPage(route) {
             <div
                 id="dashboard-container"
                 class="dashboard-page-container"
+            ></div>
+        `;
+    } else if (route === "skill-tree") {
+        moduleContainer = `
+            <div
+                id="skill-tree-container"
+                class="skill-tree-page-container"
             ></div>
         `;
     } else if (route === "calendar") {
@@ -153,6 +172,31 @@ function renderPage(route) {
             document.getElementById("dashboard-container");
 
         activeDashboard = mountDashboard(dashboardContainer);
+    }
+
+    if (route === "skill-tree") {
+        const skillTreeContainer =
+            document.getElementById("skill-tree-container");
+
+        const currentToken = skillTreeMountToken;
+
+        mountSkillTree(skillTreeContainer)
+            .then(instance => {
+                if (currentToken !== skillTreeMountToken) {
+                    instance.destroy();
+                    return;
+                }
+
+                activeSkillTree = instance;
+            })
+            .catch(error => {
+                console.error("Skill Tree mounting failed:", error);
+
+                if (currentToken === skillTreeMountToken) {
+                    skillTreeContainer.textContent =
+                        "Unable to initialize your skill tree.";
+                }
+            });
     }
 
     if (route === "calendar") {

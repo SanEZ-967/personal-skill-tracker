@@ -11,6 +11,10 @@ import {
     checkAchievementsSafely
 } from "./achievement-check-service.js";
 
+import {
+    validateDomainId
+} from "./taxonomy-service.js";
+
 function getTimestamp() {
     return new Date().toISOString();
 }
@@ -18,22 +22,19 @@ function getTimestamp() {
 // ==========================================
 // CREATE NODE
 // ==========================================
-
 export async function createNode({
     parentId = null,
     name,
     description = "",
     nodeType = "skill",
-    tags = []
+    tags = [],
+    domainId = null
 }) {
     const cleanName = validateRequiredString(name, "Node name");
 
     validateNodeType(nodeType);
     validateTags(tags);
-
-    if (typeof description !== "string") {
-        throw new Error("Description must be a string.");
-    }
+    validateDomainId(domainId);
 
     if (parentId !== null) {
         if (typeof parentId !== "string" || !parentId.trim()) {
@@ -54,16 +55,17 @@ export async function createNode({
     const timestamp = getTimestamp();
 
     const node = {
-        id: crypto.randomUUID(),
-        parentId,
-        name: cleanName,
-        description,
-        nodeType,
-        tags: tags.map(tag => tag.trim()),
-        isArchived: false,
-        createdAt: timestamp,
-        updatedAt: timestamp
-    };
+    id: crypto.randomUUID(),
+    parentId,
+    name: cleanName,
+    description,
+    nodeType,
+    tags: tags.map(tag => tag.trim()),
+    domainId,
+    isArchived: false,
+    createdAt: timestamp,
+    updatedAt: timestamp
+};
 
     await db.nodes.add(node);
 
@@ -121,15 +123,19 @@ export async function updateNode(id, updates) {
         throw new Error("Updates must be an object.");
     }
 
-    const allowedFields = [
-        "name",
-        "description",
-        "nodeType",
-        "tags",
-        "parentId"
-    ];
+   const allowedFields = [
+    "name",
+    "description",
+    "nodeType",
+    "tags",
+    "parentId"
+];
 
     const cleanUpdates = {};
+
+   if (Object.hasOwn(cleanUpdates, "domainId")) {
+    validateDomainId(cleanUpdates.domainId);
+}
 
     for (const field of allowedFields) {
         if (Object.hasOwn(updates, field)) {
