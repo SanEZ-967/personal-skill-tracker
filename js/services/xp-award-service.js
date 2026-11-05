@@ -1,34 +1,26 @@
 
 import { db } from "../database/db.js";
 
-import {
-    getXPReward
-} from "./xp-service.js";
-
-import {
-    validateDuration
-} from "./validation-service.js";
-
-import {
-    validateNodeReference
-} from "./integrity-service.js";
-
-import {
-    checkAchievementsSafely
-} from "./achievement-check-service.js";
+import { getXPReward } from "./xp-service.js";
+import { validateDuration } from "./validation-service.js";
+import { validateNodeReference } from "./integrity-service.js";
+import { checkAchievementsSafely } from "./achievement-check-service.js";
 
 // ==========================================
 // AWARD XP THROUGH PRACTICE
 // ==========================================
 
 export async function recordPractice({
-    nodeId,
+    nodeId = null,
     activity,
     activityType,
     durationMinutes,
     notes = ""
 }) {
-    await validateNodeReference(nodeId);
+    // A skill reference is optional for standalone practice.
+    if (nodeId !== null) {
+        await validateNodeReference(nodeId);
+    }
 
     if (typeof activity !== "string" || !activity.trim()) {
         throw new Error("Practice activity is required.");
@@ -65,10 +57,7 @@ export async function recordPractice({
 // ==========================================
 
 export async function getTotalXP() {
-    const [
-        practiceLogs,
-        achievements
-    ] = await Promise.all([
+    const [practiceLogs, achievements] = await Promise.all([
         db.practiceLogs.toArray(),
         db.achievements.toArray()
     ]);

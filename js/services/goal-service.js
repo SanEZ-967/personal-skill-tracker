@@ -2,9 +2,12 @@
 import { db } from "../database/db.js";
 
 import {
-    validateGoalStatus,
-    validateNodeReference
+    validateGoalStatus
 } from "./validation-service.js";
+
+import {
+    validateNodeReference
+} from "./integrity-service.js";
 
 import {
     checkAchievementsSafely

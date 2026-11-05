@@ -1,0 +1,214 @@
+
+/* ==========================================
+   TIMER MODULE
+========================================== */
+
+.timer-container {
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 24px;
+}
+
+.timer-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 28px;
+    padding: 40px 24px;
+    border: 1px solid var(--border-color, #ddd);
+    border-radius: 16px;
+    background: var(--card-background, #fff);
+}
+
+.timer-heading {
+    text-align: center;
+}
+
+.timer-heading h2 {
+    margin: 0 0 8px;
+    font-size: 1.6rem;
+}
+
+.timer-heading p {
+    margin: 0;
+    color: var(--text-secondary, #777);
+}
+
+/* ==========================================
+   TIMER DISPLAY
+========================================== */
+
+.timer-display {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+}
+
+.timer-display__time {
+    font-size: clamp(3rem, 10vw, 6rem);
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.04em;
+    line-height: 1.1;
+}
+
+.timer-display__status {
+    font-size: 0.95rem;
+    color: var(--text-secondary, #777);
+}
+
+/* ==========================================
+   TIMER CONTROLS
+========================================== */
+
+.timer-controls {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+    width: 100%;
+}
+
+.timer-button {
+    min-width: 120px;
+    padding: 12px 24px;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition:
+        background-color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.timer-button:hover {
+    transform: translateY(-1px);
+}
+
+.timer-button:focus-visible {
+    outline: 3px solid var(--focus-color, #2563eb);
+    outline-offset: 3px;
+}
+
+.timer-button--primary {
+    background: var(--primary-color, #2563eb);
+    color: white;
+}
+
+.timer-button--primary:hover {
+    background: var(--primary-hover, #1d4ed8);
+}
+
+.timer-button--secondary {
+    background: var(--secondary-background, #eee);
+    color: var(--text-color, #222);
+    border-color: var(--border-color, #ddd);
+}
+
+/* ==========================================
+   TIMER SESSION DETAILS
+========================================== */
+
+.timer-details {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+    width: 100%;
+    max-width: 500px;
+}
+
+.timer-field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.timer-field label {
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.timer-field input,
+.timer-field select,
+.timer-field textarea {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid var(--border-color, #ccc);
+    border-radius: 8px;
+    font: inherit;
+    background: var(--input-background, #fff);
+    color: var(--text-color, #222);
+}
+
+.timer-field textarea {
+    min-height: 90px;
+    resize: vertical;
+}
+
+/* ==========================================
+   TIMER COMPLETION
+========================================== */
+
+.timer-completion {
+    width: 100%;
+    max-width: 500px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.timer-completion__summary {
+    padding: 16px;
+    border-radius: 10px;
+    background: var(--secondary-background, #f5f5f5);
+    text-align: center;
+}
+
+.timer-completion__summary strong {
+    display: block;
+    font-size: 1.5rem;
+    margin-top: 6px;
+}
+
+.timer-message {
+    width: 100%;
+    padding: 12px 16px;
+    border-radius: 8px;
+    background: var(--secondary-background, #f5f5f5);
+    color: var(--text-color, #222);
+    text-align: center;
+}
+
+.timer-message--error {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+/* ==========================================
+   RESPONSIVE LAYOUT
+========================================== */
+
+@media (max-width: 600px) {
+    .timer-container {
+        padding: 12px;
+    }
+
+    .timer-card {
+        padding: 28px 16px;
+        gap: 22px;
+    }
+
+    .timer-button {
+        flex: 1;
+        min-width: 100px;
+        padding: 12px 16px;
+    }
+
+    .timer-display__time {
+        font-size: clamp(2.6rem, 12vw, 4rem);
+    }
+}

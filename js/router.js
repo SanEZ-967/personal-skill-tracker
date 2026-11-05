@@ -4,7 +4,9 @@
  * Client-side Navigation Router
  */
 
+import { mountDashboard } from "./modules/dashboard.js";
 import { mountCalendar } from "./modules/calendar.js";
+import { mountTimer } from "./modules/timer.js";
 
 const pages = {
     dashboard: {
@@ -62,7 +64,26 @@ const pages = {
     },
 };
 
+let activeDashboard = null;
 let activeCalendar = null;
+let activeTimer = null;
+
+function cleanupActiveModules() {
+    if (activeDashboard) {
+        activeDashboard.destroy();
+        activeDashboard = null;
+    }
+
+    if (activeCalendar) {
+        activeCalendar.destroy();
+        activeCalendar = null;
+    }
+
+    if (activeTimer) {
+        activeTimer.destroy();
+        activeTimer = null;
+    }
+}
 
 function renderPage(route) {
     const page = pages[route];
@@ -72,10 +93,43 @@ function renderPage(route) {
         return;
     }
 
-    // Clean up the previous Calendar instance.
-    if (activeCalendar) {
-        activeCalendar.destroy();
-        activeCalendar = null;
+    cleanupActiveModules();
+
+    let moduleContainer;
+
+    if (route === "dashboard") {
+        moduleContainer = `
+            <div
+                id="dashboard-container"
+                class="dashboard-page-container"
+            ></div>
+        `;
+    } else if (route === "calendar") {
+        moduleContainer = `
+            <div
+                id="calendar-container"
+                class="calendar-page-container"
+            ></div>
+        `;
+    } else if (route === "timer") {
+        moduleContainer = `
+            <div
+                id="timer-container"
+                class="timer-page-container"
+            ></div>
+        `;
+    } else {
+        moduleContainer = `
+            <div class="page-placeholder">
+                <h2>${page.title}</h2>
+
+                <p>${page.message}</p>
+
+                <span class="coming-soon">
+                    Feature under development
+                </span>
+            </div>
+        `;
     }
 
     mainContent.innerHTML = `
@@ -89,31 +143,18 @@ function renderPage(route) {
                 ${page.description}
             </p>
 
-            ${
-                route === "calendar"
-                    ? `
-                        <div
-                            id="calendar-container"
-                            class="calendar-page-container"
-                        ></div>
-                    `
-                    : `
-                        <div class="page-placeholder">
-                            <h2>${page.title}</h2>
-
-                            <p>${page.message}</p>
-
-                            <span class="coming-soon">
-                                Feature under development
-                            </span>
-                        </div>
-                    `
-            }
+            ${moduleContainer}
 
         </section>
     `;
 
-    // Mount the Calendar module when its route is active.
+    if (route === "dashboard") {
+        const dashboardContainer =
+            document.getElementById("dashboard-container");
+
+        activeDashboard = mountDashboard(dashboardContainer);
+    }
+
     if (route === "calendar") {
         const calendarContainer =
             document.getElementById("calendar-container");
@@ -121,7 +162,13 @@ function renderPage(route) {
         activeCalendar = mountCalendar(calendarContainer);
     }
 
-    // Update active navigation item.
+    if (route === "timer") {
+        const timerContainer =
+            document.getElementById("timer-container");
+
+        activeTimer = mountTimer(timerContainer);
+    }
+
     document.querySelectorAll(".nav-link").forEach(button => {
         const isActive = button.dataset.route === route;
 
@@ -150,7 +197,6 @@ export function navigateTo(route) {
 }
 
 export function initializeRouter() {
-    // Handle navigation clicks.
     document.addEventListener("click", event => {
         const button = event.target.closest("[data-route]");
 
@@ -161,14 +207,12 @@ export function initializeRouter() {
         navigateTo(button.dataset.route);
     });
 
-    // Handle browser back and forward buttons.
     window.addEventListener("hashchange", () => {
         const route = window.location.hash.slice(1);
 
         renderPage(pages[route] ? route : "dashboard");
     });
 
-    // Load initial page.
     const initialRoute = window.location.hash.slice(1);
 
     renderPage(pages[initialRoute] ? initialRoute : "dashboard");

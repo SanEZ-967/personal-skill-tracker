@@ -72,17 +72,20 @@ export async function checkDatabaseIntegrity() {
             .toArray();
 
         for (const record of records) {
-            // Goals may have a null nodeId.
+            const nodeId = record[tableInfo.field];
+
+            // Goals and practice logs may be standalone.
             if (
-                tableInfo.name === "goals" &&
-                record[tableInfo.field] === null
+                nodeId === null &&
+                (
+                    tableInfo.name === "goals" ||
+                    tableInfo.name === "practiceLogs"
+                )
             ) {
                 continue;
             }
 
-            const exists = await nodeExists(
-                record[tableInfo.field]
-            );
+            const exists = await nodeExists(nodeId);
 
             if (!exists) {
                 issues.push({
@@ -94,8 +97,9 @@ export async function checkDatabaseIntegrity() {
         }
     }
 
-    // Check planner activity references.
-    const plannerActivities = await db.plannerActivities.toArray();
+    // Check Planner activity references.
+    const plannerActivities =
+        await db.plannerActivities.toArray();
 
     for (const activity of plannerActivities) {
         if (activity.nodeId !== null) {
@@ -132,7 +136,9 @@ export async function checkDatabaseIntegrity() {
 
     for (const node of nodes) {
         if (node.parentId !== null) {
-            const parentExists = await nodeExists(node.parentId);
+            const parentExists = await nodeExists(
+                node.parentId
+            );
 
             if (!parentExists) {
                 issues.push({
@@ -145,7 +151,8 @@ export async function checkDatabaseIntegrity() {
     }
 
     // Check cross-node relationships.
-    const relationships = await db.relationships.toArray();
+    const relationships =
+        await db.relationships.toArray();
 
     for (const relationship of relationships) {
         const sourceExists = await nodeExists(
