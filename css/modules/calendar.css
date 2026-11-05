@@ -1,0 +1,410 @@
+
+/* ========================================
+   Calendar Header
+======================================== */
+
+.calendar-header {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.calendar-header__navigation {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+}
+
+.calendar-header__date-label {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 700;
+}
+
+.calendar-header__nav-button,
+.calendar-header__today-button,
+.calendar-header__view-button {
+    border: 1px solid var(--border-color, #d1d5db);
+    border-radius: 0.5rem;
+    padding: 0.5rem 0.75rem;
+    background: var(--surface-color, #ffffff);
+    color: var(--text-color, #1f2937);
+    cursor: pointer;
+}
+
+.calendar-header__views {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.calendar-header__view-button.is-active {
+    background: var(--primary-color, #2563eb);
+    color: #ffffff;
+    border-color: var(--primary-color, #2563eb);
+}
+
+/* ========================================
+   Shared Activity Styling
+======================================== */
+
+.calendar-activity {
+    display: flex;
+    gap: 0.75rem;
+    padding: 0.75rem;
+    border-left: 4px solid var(--primary-color, #2563eb);
+    border-radius: 0.4rem;
+    background: var(--surface-color, #ffffff);
+    color: var(--text-color, #1f2937);
+}
+
+.calendar-activity--planned {
+    border-left-color: #2563eb;
+}
+
+.calendar-activity--in_progress {
+    border-left-color: #d97706;
+}
+
+.calendar-activity--completed {
+    border-left-color: #16a34a;
+}
+
+.calendar-activity--missed {
+    border-left-color: #dc2626;
+}
+
+.calendar-activity--cancelled {
+    border-left-color: #9ca3af;
+    opacity: 0.6;
+}
+
+.calendar-activity__status,
+.calendar-agenda-view__status {
+    font-size: 0.75rem;
+    color: var(--muted-text-color, #6b7280);
+}
+
+/* ========================================
+   Day View
+======================================== */
+
+.calendar-day-view {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.calendar-day-view__heading {
+    margin: 0;
+    font-size: 1.15rem;
+}
+
+.calendar-day-view__activities {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.calendar-day-view__empty,
+.calendar-week-view__empty,
+.calendar-agenda-view__empty {
+    padding: 1.5rem;
+    text-align: center;
+    color: var(--muted-text-color, #6b7280);
+}
+
+.calendar-activity__time {
+    min-width: 4rem;
+    font-weight: 600;
+}
+
+.calendar-activity__details {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.calendar-activity__title,
+.calendar-activity__duration {
+    margin: 0;
+}
+
+/* ========================================
+   Week View
+======================================== */
+
+.calendar-week-view__grid {
+    display: grid;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    gap: 0.5rem;
+}
+
+.calendar-week-view__day {
+    min-width: 0;
+    min-height: 12rem;
+    padding: 0.5rem;
+    border: 1px solid var(--border-color, #d1d5db);
+    border-radius: 0.5rem;
+    background: var(--surface-color, #ffffff);
+}
+
+.calendar-week-view__day.is-today {
+    border-color: var(--primary-color, #2563eb);
+}
+
+.calendar-week-view__day-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    padding: 0.5rem;
+    border: 0;
+    background: transparent;
+    color: inherit;
+    cursor: pointer;
+}
+
+.calendar-week-view__weekday {
+    font-size: 0.8rem;
+    color: var(--muted-text-color, #6b7280);
+}
+
+.calendar-week-view__day-number {
+    font-size: 1.15rem;
+    font-weight: 700;
+}
+
+.calendar-week-view__activities {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.calendar-week-view__activity {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    width: 100%;
+    padding: 0.4rem;
+    border: 0;
+    border-left: 3px solid var(--primary-color, #2563eb);
+    border-radius: 0.25rem;
+    background: var(--background-color, #f3f4f6);
+    color: inherit;
+    text-align: left;
+    cursor: pointer;
+    overflow-wrap: anywhere;
+}
+
+.calendar-week-view__activity-time {
+    font-size: 0.7rem;
+}
+
+.calendar-week-view__activity-title {
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.calendar-week-view__activity-status {
+    font-size: 0.7rem;
+    color: var(--muted-text-color, #6b7280);
+}
+
+/* ========================================
+   Month View
+======================================== */
+
+.calendar-month-view__grid {
+    display: grid;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    border-top: 1px solid var(--border-color, #d1d5db);
+    border-left: 1px solid var(--border-color, #d1d5db);
+}
+
+.calendar-month-view__weekday {
+    padding: 0.75rem 0.25rem;
+    text-align: center;
+    font-weight: 700;
+    border-right: 1px solid var(--border-color, #d1d5db);
+    border-bottom: 1px solid var(--border-color, #d1d5db);
+}
+
+.calendar-month-view__day {
+    min-width: 0;
+    min-height: 6rem;
+    padding: 0.35rem;
+    border-right: 1px solid var(--border-color, #d1d5db);
+    border-bottom: 1px solid var(--border-color, #d1d5db);
+}
+
+.calendar-month-view__day.is-outside-month {
+    background: var(--background-color, #f3f4f6);
+    opacity: 0.55;
+}
+
+.calendar-month-view__day.is-today {
+    outline: 2px solid var(--primary-color, #2563eb);
+    outline-offset: -2px;
+}
+
+.calendar-month-view__day-button {
+    display: block;
+    width: 2rem;
+    height: 2rem;
+    border: 0;
+    border-radius: 50%;
+    background: transparent;
+    color: inherit;
+    cursor: pointer;
+}
+
+.calendar-month-view__activities {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    margin-top: 0.25rem;
+}
+
+.calendar-month-view__activity {
+    width: 100%;
+    padding: 0.2rem 0.3rem;
+    border: 0;
+    border-left: 3px solid var(--primary-color, #2563eb);
+    border-radius: 0.2rem;
+    background: var(--background-color, #f3f4f6);
+    color: inherit;
+    font-size: 0.7rem;
+    text-align: left;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    cursor: pointer;
+}
+
+/* ========================================
+   Agenda View
+======================================== */
+
+.calendar-agenda-view {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.calendar-agenda-view__heading {
+    margin: 0;
+    font-size: 1.15rem;
+}
+
+.calendar-agenda-view__date-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.calendar-agenda-view__date-heading {
+    margin: 0;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--border-color, #d1d5db);
+    font-size: 1rem;
+}
+
+.calendar-agenda-view__activities {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.calendar-agenda-view__activity {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid var(--border-color, #d1d5db);
+    border-radius: 0.5rem;
+    background: var(--surface-color, #ffffff);
+    color: inherit;
+    text-align: left;
+    cursor: pointer;
+}
+
+.calendar-agenda-view__time {
+    min-width: 4rem;
+    font-weight: 600;
+}
+
+.calendar-agenda-view__details {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+/* ========================================
+   Interaction States
+======================================== */
+
+.calendar-header button:hover,
+.calendar-week-view button:hover,
+.calendar-month-view button:hover,
+.calendar-agenda-view button:hover {
+    filter: brightness(0.95);
+}
+
+.calendar-header button:focus-visible,
+.calendar-week-view button:focus-visible,
+.calendar-month-view button:focus-visible,
+.calendar-day-view [role="button"]:focus-visible,
+.calendar-agenda-view button:focus-visible {
+    outline: 2px solid var(--primary-color, #2563eb);
+    outline-offset: 2px;
+}
+
+/* ========================================
+   Responsive Layout
+======================================== */
+
+@media (max-width: 900px) {
+    .calendar-week-view__grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 600px) {
+    .calendar-header__navigation {
+        gap: 0.5rem;
+    }
+
+    .calendar-header__date-label {
+        width: 100%;
+        font-size: 1.1rem;
+    }
+
+    .calendar-week-view__grid {
+        grid-template-columns: 1fr;
+    }
+
+    .calendar-week-view__day {
+        min-height: auto;
+    }
+
+    .calendar-month-view__day {
+        min-height: 4.5rem;
+        padding: 0.2rem;
+    }
+
+    .calendar-month-view__weekday {
+        font-size: 0.75rem;
+    }
+
+    .calendar-month-view__activity {
+        font-size: 0.6rem;
+    }
+
+    .calendar-agenda-view__activity {
+        gap: 0.5rem;
+    }
+}

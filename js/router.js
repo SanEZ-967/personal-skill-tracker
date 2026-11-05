@@ -4,6 +4,8 @@
  * Client-side Navigation Router
  */
 
+import { mountCalendar } from "./modules/calendar.js";
+
 const pages = {
     dashboard: {
         title: "Dashboard",
@@ -60,12 +62,20 @@ const pages = {
     },
 };
 
+let activeCalendar = null;
+
 function renderPage(route) {
     const page = pages[route];
     const mainContent = document.getElementById("main-content");
 
     if (!page || !mainContent) {
         return;
+    }
+
+    // Clean up the previous Calendar instance.
+    if (activeCalendar) {
+        activeCalendar.destroy();
+        activeCalendar = null;
     }
 
     mainContent.innerHTML = `
@@ -79,20 +89,39 @@ function renderPage(route) {
                 ${page.description}
             </p>
 
-            <div class="page-placeholder">
-                <h2>${page.title}</h2>
+            ${
+                route === "calendar"
+                    ? `
+                        <div
+                            id="calendar-container"
+                            class="calendar-page-container"
+                        ></div>
+                    `
+                    : `
+                        <div class="page-placeholder">
+                            <h2>${page.title}</h2>
 
-                <p>${page.message}</p>
+                            <p>${page.message}</p>
 
-                <span class="coming-soon">
-                    Feature under development
-                </span>
-            </div>
+                            <span class="coming-soon">
+                                Feature under development
+                            </span>
+                        </div>
+                    `
+            }
 
         </section>
     `;
 
-    // Update active navigation item
+    // Mount the Calendar module when its route is active.
+    if (route === "calendar") {
+        const calendarContainer =
+            document.getElementById("calendar-container");
+
+        activeCalendar = mountCalendar(calendarContainer);
+    }
+
+    // Update active navigation item.
     document.querySelectorAll(".nav-link").forEach(button => {
         const isActive = button.dataset.route === route;
 
@@ -121,7 +150,7 @@ export function navigateTo(route) {
 }
 
 export function initializeRouter() {
-    // Handle navigation clicks
+    // Handle navigation clicks.
     document.addEventListener("click", event => {
         const button = event.target.closest("[data-route]");
 
@@ -132,14 +161,14 @@ export function initializeRouter() {
         navigateTo(button.dataset.route);
     });
 
-    // Handle browser back and forward buttons
+    // Handle browser back and forward buttons.
     window.addEventListener("hashchange", () => {
         const route = window.location.hash.slice(1);
 
         renderPage(pages[route] ? route : "dashboard");
     });
 
-    // Load initial page
+    // Load initial page.
     const initialRoute = window.location.hash.slice(1);
 
     renderPage(pages[initialRoute] ? initialRoute : "dashboard");
