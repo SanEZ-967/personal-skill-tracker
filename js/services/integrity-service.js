@@ -72,7 +72,7 @@ export async function checkDatabaseIntegrity() {
             .toArray();
 
         for (const record of records) {
-            // Goals and quest records may have a null nodeId.
+            // Goals may have a null nodeId.
             if (
                 tableInfo.name === "goals" &&
                 record[tableInfo.field] === null
@@ -89,6 +89,39 @@ export async function checkDatabaseIntegrity() {
                     table: tableInfo.name,
                     recordId: record.id,
                     problem: "Referenced node does not exist."
+                });
+            }
+        }
+    }
+
+    // Check planner activity references.
+    const plannerActivities = await db.plannerActivities.toArray();
+
+    for (const activity of plannerActivities) {
+        if (activity.nodeId !== null) {
+            const referencedNodeExists = await nodeExists(
+                activity.nodeId
+            );
+
+            if (!referencedNodeExists) {
+                issues.push({
+                    table: "plannerActivities",
+                    recordId: activity.id,
+                    problem: "Referenced node does not exist."
+                });
+            }
+        }
+
+        if (activity.goalId !== null) {
+            const referencedGoal = await db.goals.get(
+                activity.goalId
+            );
+
+            if (!referencedGoal) {
+                issues.push({
+                    table: "plannerActivities",
+                    recordId: activity.id,
+                    problem: "Referenced goal does not exist."
                 });
             }
         }

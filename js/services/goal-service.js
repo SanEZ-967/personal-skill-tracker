@@ -279,14 +279,33 @@ export async function changeGoalStatus(id, status) {
 // DELETE GOAL
 // ==========================================
 
+
 export async function deleteGoal(id) {
-    const goal = await db.goals.get(id);
+    await db.transaction(
+        "rw",
+        db.goals,
+        db.plannerActivities,
+        async () => {
+            const goal = await db.goals.get(id);
 
-    if (!goal) {
-        throw new Error("Goal not found.");
-    }
+            if (!goal) {
+                throw new Error("Goal not found.");
+            }
 
-    await db.goals.delete(id);
+            const linkedActivities = await db.plannerActivities
+                .where("goalId")
+                .equals(id)
+                .count();
+
+            if (linkedActivities > 0) {
+                throw new Error(
+                    "Cannot delete a goal that has linked Planner activities. Remove or update those links first."
+                );
+            }
+
+            await db.goals.delete(id);
+        }
+    );
 
     return true;
 }

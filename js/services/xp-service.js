@@ -23,6 +23,28 @@ export const XP_REWARDS = {
 export const XP_PER_LEVEL = 100;
 
 // ==========================================
+// GET XP REWARD
+// ==========================================
+
+export function getXPReward(activityType) {
+    if (typeof activityType !== "string") {
+        throw new Error("Activity type must be a string.");
+    }
+
+    const normalizedType = activityType
+        .trim()
+        .toUpperCase();
+
+    const reward = XP_REWARDS[normalizedType];
+
+    if (reward === undefined) {
+        throw new Error("Invalid XP activity type.");
+    }
+
+    return reward;
+}
+
+// ==========================================
 // CALCULATE PLAYER LEVEL
 // ==========================================
 
@@ -49,47 +71,6 @@ export function getXPRequiredForLevel(level) {
 // ==========================================
 // GET XP PROGRESS
 // ==========================================
-
-export function getXPProgress(totalXP) {
-    validateXP(totalXP);
-
-    const currentLevel = calculatePlayerLevel(totalXP);
-
-    const currentLevelXP = getXPRequiredForLevel(
-        currentLevel - 1 || 1
-    );
-
-    const nextLevelXP = getXPRequiredForLevel(
-        currentLevel
-    );
-
-    // Level 1 starts at 0 XP
-    const progressStartXP = currentLevel === 1
-        ? 0
-        : currentLevelXP;
-
-    const xpIntoLevel = totalXP - progressStartXP;
-    const xpNeededForLevel = nextLevelXP - progressStartXP;
-
-    return {
-        currentLevel,
-        totalXP,
-        xpIntoLevel,
-        xpNeededForLevel,
-        nextLevelXP,
-        progressPercentage: Math.min(
-            100,
-            Math.floor(
-                (xpIntoLevel / xpNeededForLevel) * 100
-            )
-        )
-    };
-}
-
-// ==========================================
-// GET XP REWARD
-// ==========================================
-
 
 export function getXPProgress(totalXP) {
     validateXP(totalXP);

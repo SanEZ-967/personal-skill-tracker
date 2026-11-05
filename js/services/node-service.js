@@ -35,7 +35,6 @@ export async function createNode({
         throw new Error("Description must be a string.");
     }
 
-    // Validate parent.
     if (parentId !== null) {
         if (typeof parentId !== "string" || !parentId.trim()) {
             throw new Error("Parent ID must be a valid string or null.");
@@ -68,7 +67,6 @@ export async function createNode({
 
     await db.nodes.add(node);
 
-    // Safely check skill-related achievements.
     if (nodeType === "skill") {
         await checkAchievementsSafely();
     }
@@ -161,7 +159,6 @@ export async function updateNode(id, updates) {
         cleanUpdates.tags = cleanUpdates.tags.map(tag => tag.trim());
     }
 
-    // Validate parent changes.
     if (Object.hasOwn(cleanUpdates, "parentId")) {
         const newParentId = cleanUpdates.parentId;
 
@@ -258,6 +255,7 @@ export async function deleteNode(id) {
         db.practiceLogs,
         db.relationships,
         db.breakthroughs,
+        db.plannerActivities,
         async () => {
             const node = await db.nodes.get(id);
 
@@ -282,7 +280,8 @@ export async function deleteNode(id) {
                 db.evidence,
                 db.resources,
                 db.practiceLogs,
-                db.breakthroughs
+                db.breakthroughs,
+                db.plannerActivities
             ];
 
             for (const table of dependentTables) {

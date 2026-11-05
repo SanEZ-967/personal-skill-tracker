@@ -22,7 +22,8 @@ const REQUIRED_TABLES = [
     "relationships",
     "achievements",
     "settings",
-    "breakthroughs"
+    "breakthroughs",
+    "plannerActivities"
 ];
 
 // ==========================================
@@ -74,7 +75,10 @@ export async function downloadBackup() {
     link.click();
     document.body.removeChild(link);
 
-    URL.revokeObjectURL(url);
+    // Give the browser time to start downloading before releasing the URL.
+    setTimeout(() => {
+        URL.revokeObjectURL(url);
+    }, 1000);
 
     return true;
 }
@@ -145,10 +149,8 @@ export function validateBackup(backup) {
 // ==========================================
 
 export async function restoreDatabase(backup) {
-    // Validate before changing existing data.
     validateBackup(backup);
 
-    // Only restore backups matching the current schema version.
     if (backup.databaseVersion !== db.verno) {
         throw new Error(
             "Backup database version is incompatible with this application."
@@ -163,7 +165,6 @@ export async function restoreDatabase(backup) {
         "rw",
         ...tables,
         async () => {
-            // Clear existing data and import backup records.
             for (const tableName of REQUIRED_TABLES) {
                 const table = db.table(tableName);
                 const records = backup.data[tableName];
@@ -175,7 +176,6 @@ export async function restoreDatabase(backup) {
                 }
             }
 
-            // Verify restored references before committing.
             const integrity = await checkDatabaseIntegrity();
 
             if (!integrity.isValid) {
